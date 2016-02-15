@@ -33,7 +33,7 @@
 \usepackage{listings}
 \usepackage{url}
 \usepackage{rotating}
-\usepackage{calrsfs}
+%\usepackage{calrsfs}
 \usepackage{amsfonts}
 \usepackage[T1]{fontenc}
 
@@ -60,8 +60,8 @@ for Bird Flocking on GPU}
 \subtitle{ R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio  }
 \author[R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio] 
 % XXX METTERE AFFILIAZIONI!!!!!
-{\textit{Speaker:} \hfill \\ \textbf{ Davide Spataro} \\
-Ph.D student at \textit{Department of Mathematics and Computer Science}@\\
+{\textit{Speaker:} \hfill  \textbf{ Davide Spataro} \\
+Ph.D student at \textit{Department of Mathematics and Computer Science}@
    University of Calabria
 }
 
@@ -242,15 +242,25 @@ where $s_h$ is the maximum horizontal range of view, $s_v$ is the maximum vertic
 \subsection{Cohesion, separation and alignment }
 \begin{frame}
 \textcolor{blue}{\underline{Cohesion:}}
-
 In formal terms \(\vec{C}_b^i\), the bird $b$'s centroid at time $i$, is given by:
+\begin{center}
+\begin{columns}
+\column{.65\textwidth} 
+
 
 \begin{align}
  \vec{C}_b^i = \frac{1}{|\mathcal{N}_b|}\sum_{n=1}^{|\mathcal{N}_b|}{\vec{p}_n  \frac{d_{i,j}}{d_s}} \notag
 \end{align}
 
-where:
+\column{.45\textwidth} 
+\begin{figure}[h!]
+		\includegraphics[scale=0.4]{images/cohesion}
+		\label{fig:vFOV}
+		%\caption{Birds vertical field of view. }
+\end{figure}	
 
+
+\end{columns}
 \begin{enumerate}
 \item \(\mathcal{N}_b\) the set of birds in b's FOV.
 \item \(\vec{p}_n\) is the position of $n \in \mathcal{N}_b$, set of neighbours
@@ -269,6 +279,9 @@ The $b$'s cohesion vector \(\vec{v}_c\) is then defined as follows.
 		v_p, &\mbox{ otherwise }  \notag
 	\end{cases}
 \end{equation}
+
+\end{center}
+
 \end{frame}
 
 \begin{frame}
@@ -288,7 +301,8 @@ by:
 	\end{cases}
 \end{equation}
 
-where:
+\begin{columns}
+\column{.55\textwidth} 
 
 \begin{enumerate}
 \item \(\mathcal{N}_b\) is the set of neighbours, %the number of ,
@@ -299,6 +313,17 @@ where:
 	\end{cases}$
 \end{enumerate}
 
+\column{.35\textwidth} 
+\begin{figure}[h!]
+		\includegraphics[scale=0.4]{images/separation}
+		\label{fig:vFOV}
+		%\caption{Birds vertical field of view. }
+\end{figure}	
+
+
+\end{columns}
+
+
 $d_{min}$ is the minimum distance between two birds to avoid collision.
 \end{frame}
 
@@ -306,12 +331,22 @@ $d_{min}$ is the minimum distance between two birds to avoid collision.
 \textcolor{blue}{\underline{Alignment:}}
 Bird $b$'s alignment \(\vec{A}_b^i\) is here defined as %(equation \ref{eq:alignment})
 
+\begin{columns}
+\column{.55\textwidth} 
 \begin{align}
   \vec{A}_i = \left[\sum_{j \in \mathcal{N}'_b}{\vec{v_j}}\;f_a\right] + a, \;\;0 < |\vec{A}_i| \leq v_p \notag
   \label{eq:alignment}
 \end{align}
 
-where:
+\column{.35\textwidth} 
+\begin{figure}[h!]
+		\includegraphics[scale=0.4]{images/alignmetn}
+		\label{fig:vFOV}
+		%\caption{Birds vertical field of view. }
+\end{figure}	
+
+
+\end{columns}
 
 \begin{enumerate}
 \item \(\mathcal{N}'_b \subseteq \mathcal{N}_b\) is the set of birds considered by $b$ for the alignment (e.g. the nearests).
@@ -573,6 +608,7 @@ Timing (in seconds) for the Parallel CUDA shared memory implementation:
 	\\
 	\hline
 	
+
 	1024  & \(263.9\) & $19.9$ & $7.9$  \\
 	5120  & \(4913.0\) & $366.3$ & $34.6$  \\
 	10240 &  $19074.5$ & 1398.7 & 96.5  \\
