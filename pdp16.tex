@@ -59,6 +59,7 @@
 for Bird Flocking on GPU}
 \subtitle{ R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio  }
 \author[R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio] 
+% XXX METTERE AFFILIAZIONI!!!!!
 {\textit{Speaker:} \hfill \\ \textbf{ Davide Spataro} \\
 Ph.D student at \textit{Department of Mathematics and Computer Science}@\\
    University of Calabria
@@ -66,7 +67,7 @@ Ph.D student at \textit{Department of Mathematics and Computer Science}@\\
 
 
   
-\date{PDP16  Heraklion Crete, Greece \\
+\date{PDP 2016,  Heraklion Crete, Greece \\
 February 18th, 2016}
 
 \begin{document}
@@ -77,9 +78,9 @@ February 18th, 2016}
 \titlepage
 \end{frame}
 
-\begin{frame}{Abstract}
-Birds flocking is an interesting natural phenomenon of investigation. In this paper, we present a GPGPU model for birds flocking simulation using NVIDIA's CUDA framework. This technology has been widely adopted
-in computational science and have  increased computation performances. We present the ACIADDRI model for 
+\begin{frame}{Synopsis}
+Birds flocking is an interesting natural phenomenon for investigation complex behaviour. In this paper, we present a GPGPU model for birds flocking simulation using NVIDIA's CUDA framework. This technology has been widely adopted
+in computational science and have increased computation performances. We present the ACIADDRI model for 
 \begin{itemize}
 \item aggregate motion of a large
 number of birds in virtual environment;
@@ -184,7 +185,7 @@ species is described by sets of parameters.
 \begin{frame}
 \underline{\textbf{\textit{Species parameters: }}}
 
-Each specie is described by a set of parameter that represent
+Each specie is described by a set of parameters that represent
 quantities that are involved in the flight and flocking dynamics.
 \begin{itemize}
 \item Bird's wingspan $s$ is  an approximation of the
@@ -192,7 +193,7 @@ volume it occupies;
 \item $v_p$ is the maximum velocity it can travel
 and $a$ is bird's maximum acceleration.
 \end{itemize}
-Viewing frustum: FOV together with the maximum sight distance.
+Viewing frustum: Filed of View (FOV) together with the maximum sight distance.
 \begin{center}
 \begin{columns}
 \column{.5\textwidth} 
@@ -469,8 +470,8 @@ accelerate the flocking simulation of a large number of boids
 using the model presented  in an environment
 with a number of agents up to $5x10^6$. 
 We produced two different parallel
-versions consisting in (the well-known host-managed accelerated
-program structure):
+versions adopting the typical host-managed accelerated
+program structure:
 \begin{itemize}
 	\item Initialization of data structures on \emph{CPU}
 	\item Data transfer from \textbf{\emph{CPU} to \emph{GPU}}
@@ -512,7 +513,7 @@ speedup of $ \thickapprox 20x$.
 \begin{frame}
 \textcolor{blue}{\underline{Shared memory version:}}
 
-
+% XXX vuoi aggiungere una slide sulla shared memory (imagine tipica) ??
 The shared memory is exploited in order to cache
 bird's frequently accessed data.
 \begin{itemize}
@@ -532,9 +533,9 @@ $10^4$ time steps.
 \begin{frame}
 Three devices were adopted for testing different CUDA
 version of the model: the high-end GTX 980, a GT 635M
-and a low-end mobile chip.
+and a low-end mobile chip (XXX QUALE??!).
 
-Above are shown the execution times of the na$\ddot{i}$ve and shared memory version:
+Above are shown the execution times (in seconds) of the na$\ddot{i}$ve and shared memory version:
 
 \begin{table} [h!]
 	\centering
@@ -555,10 +556,12 @@ Above are shown the execution times of the na$\ddot{i}$ve and shared memory vers
 	327680  & 35815012.0 	& - 						& $58003.0$, ($617,47$)  \\
 	\hline
 	\end{tabular}
-	\caption{Timing (in seconds) for the Parallel CUDA Na\"ive implementation}
+	\caption{Timings for the Parallel CUDA Na\"ive implementation}. Number in brackets represent speedups.
 	\label{tab:naive}
 \end{table}
 \end{frame}
+
+%XXX metterei anche un grafico per i speedup, per evidienzare gli ottimi risultati
 
 \begin{frame}
 Timing (in seconds) for the Parallel CUDA shared memory implementation:
@@ -602,7 +605,7 @@ presented a preliminary multi-agent and multiple group approach for bird flockin
 
 \begin{frame}
 \begin{center}
-\begin{huge}Thanks for the attention \end{huge}
+\begin{huge}Thanks for your kind attention! \end{huge}
 \end{center}
 
 \end{frame}
