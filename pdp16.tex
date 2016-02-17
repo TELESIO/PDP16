@@ -57,16 +57,10 @@
 
 \title[The ACIADDRI model]{Multi-Agent System with Multiple Group Modelling
 for Bird Flocking on GPU}
-\subtitle{ R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio  }
-\author[R. Hidayat, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio] 
-% XXX METTERE AFFILIAZIONI!!!!!
-{\textit{Speaker:} \hfill  \textbf{ Davide Spataro} \\
-Ph.D student at \textit{Department of Mathematics and Computer Science}@
-   University of Calabria
-}
 
-
-  
+\author{R. Hidayat\inst{1}, D. Spataro, E. De Giorgio, W. Spataro, D. D'Ambrosio\inst{2}}
+\institute[shortinst]{\inst{1} BPJS Kesehatan, Indonesia \and %
+	\inst{2} University of Calabria, Department of Mathematics and Computer Science}
 \date{PDP 2016,  Heraklion Crete, Greece \\
 February 18th, 2016}
 
@@ -79,12 +73,14 @@ February 18th, 2016}
 \end{frame}
 
 \begin{frame}{Synopsis}
-Birds flocking is an interesting natural phenomenon for investigation complex behaviour. In this paper, we present a GPGPU model for birds flocking simulation using NVIDIA's CUDA framework. This technology has been widely adopted
-in computational science and have increased computation performances. We present the ACIADDRI model for 
+\textbf{Birds flocking} is an interesting and widely studied natural phenomenon. In this paper, we present a \textbf{GPGPU model} for birds flocking simulation using NVIDIA's CUDA framework. 
+
+Flocking simulation has important applications (to cite few) in \textit{swarm behaviour analysis} and \textit{cinema industry special effects}.
+
+The main contributions of this paper are:
 \begin{itemize}
-\item aggregate motion of a large
-number of birds in virtual environment;
-\item other species or predators avoidance in the plane
+\item improved model for multiple species aggregate motion with predator avoidance.
+\item  Interactive simulation of very large number of birds
 \end{itemize} 
 
 The work shows that the use of the CUDA technology can be effective to cut computational costs also in multi-agent modelling.
@@ -96,12 +92,12 @@ The work shows that the use of the CUDA technology can be effective to cut compu
 
 \section{Introduction}
 \begin{frame}{Introduction}
- Flocking behaviour exists in nature at almost every length scale of observation but it can be investigated as a collective motion. 
+ Flocking behaviour exists in nature at almost every length scale of observation.
 
-One study approach is based on mathematical modelling and numerical simulations:
+A possible approach for its study is based:
 \begin{itemize}
 \item random motion, organisms are treated like gas molecules their motion is Brownian combined with attraction/repulsion forces;
-\item ordinary differential equation (ODE) models.
+\item differential equation (DE) models.
 \end{itemize}
 However organisms seldom move really randomly, nor are they just
 simple particles. 
@@ -119,37 +115,38 @@ ACIADDRI (\textit{Aggregate
 Collection of Interactive Agents using nviDia's cuDa Reliable
 Informatics}) multi-agent flocking model extends Reynolds works on bird flocking behaviour by adding 
 \begin{itemize}
-\item multi-species interaction,
-\item  predator avoidance,
-\item partially observable environment and birds flight constraints.
+\item multi-species interaction
+\item  predator avoidance
+\item partially observable environment and birds flight constraints
 \end{itemize}
-We carried out experiments on the specific GPU hardware
-and by considering 
+We carried out experiment considering:
 \begin{itemize}
 \item aggregate motion of a huge number
-(up to tens of millions) of boids in a virtual environment, 
+(up to $10^7$) of boids
 \item other species or predators avoidance. 
 \end{itemize}
 Significant performance
-improvement in terms of speedup were obtained (up to 500x).
+improvement in terms of speedup were obtained \textbf{(up to 500x)}.
 \end{frame}
 
 \section{The ACIADDRI model}
 \begin{frame}{The ACIADDRI model}
-Craig W. Reynolds in 1987  was amongst
-the first to abstract the flocking behaviour, in order to steer a swarm
-of simulated birds, called boids (birdoid).
-
-Every boids has some limitations that can be specified by the three behavioural rules:
+Craig W. Reynolds in 1987  was among
+the firsts to abstract the flocking behaviour. In his model every boid obeys to three behavioural rules:
 \begin{description}
 \item[COHESION: ] to attempt to stay close to nearby flockmates;
 \item[COLLISION AVOIDANCE/SEPARATION: ] \hfill \\ 
-to evade obstacles and flock mates which are too
+to evade obstacles and flockmates which are too
 close;
 \item[VELOCITY/HEADING MATCHING:]\hfill \\
-also called \textit{alignment}, to move in the same direction
-as nearby flock mates.
+also called \textit{alignment}, to head in the same direction
+of nearby flockmates.
 \end{description}
+This work extends Reynolds's model adding:
+\begin{itemize}
+	\item multiple group and species interaction
+	\item predators avoidance
+\end{itemize}
 \end{frame}
 
 \subsection{Model parameters}
@@ -213,6 +210,33 @@ Viewing frustum: Filed of View (FOV) together with the maximum sight distance.
 \end{columns}
 \end{center}
 \end{frame}
+
+
+\begin{frame}
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{ |l | l |l| }
+			\hline
+			\textbf{Name}& \textbf{Symbol} & \textbf{Dimension}\\ \hline
+			
+			Mass & \(m\) & \(\dimens{L}\) \\
+			Peak Velocity & \(v_p\)  & \( \dimens{L} \dimens{T^{-1}}\)  \\
+			Thrust 	& \(a\) & \( \dimens{L} \dimens{T^{-2}}\)  \\
+			Horizontal Range of View & \(s_h\) & \(-\) \\ 
+			Vertical Range of View & \(s_v\) 	& \(-\) \\
+			Sight Distance & \(d_s\) & \( \dimens{L}\) \\
+			Minimum Distance & \(d_{min}\) & \( \dimens{L}\)\\
+			Alignment Radius & \(d_a\) & \( \dimens{L}\)  \\
+			Other Species Avoidance Radius & \(r_s\) & \( \dimens{L}\)\\
+			Predator Avoidance Radius & \(r_p\) & \( \dimens{L}\) \\
+			Maximum Turn & \(\theta_{max}\) & \( rad \dimens{s^{-1}} \)\\
+			Wander Distance & \(w_d\) & \( rad \dimens{s^{-1}} \) \\
+			Wander Radius & \(w_r\)	& \( rad \dimens{s^{-1}} \) \\ 
+			\hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
 
 
 \subsection{Bird's field of view }
@@ -340,7 +364,7 @@ Bird $b$'s alignment \(\vec{A}_b^i\) is here defined as %(equation \ref{eq:align
 
 \column{.35\textwidth} 
 \begin{figure}[h!]
-		\includegraphics[scale=0.4]{images/alignmetn}
+		\includegraphics[scale=0.4]{images/alignemtn}
 		\label{fig:vFOV}
 		%\caption{Birds vertical field of view. }
 \end{figure}	
@@ -421,19 +445,20 @@ The predator avoidance vector $\vec{\Gamma}_b^i$ is defined as follows:
 
 When the neighbourhood  of a bird is empty it flies pseudo-randomly in the space. This kind of behaviour is called \textit{wandering}. 
 Wandering is obtained combining a current and a random direction 
+\[
+\vec{s} = rand()
+\]
 \begin{equation}
     \vec{\omega}_b^i =  
 		\begin{cases} 
 			0 & \mbox{if } \mathcal{N}_b \neq \emptyset \\ 
-			\frac{\vec{s}}{|\vec{s}|}\;w_r+w_d,\; 0 < |\vec{\omega}_i| \leq v_p &  \mbox{otherwise}  \notag
+			\frac{\vec{s}}{|\vec{s}|}\;w_r+w_d,\; 0 < |\vec{\omega}_b^i| \leq v_p &  \mbox{otherwise}  \notag
 		\end{cases}
 \end{equation}
 Where 
 \begin{itemize}
-\item $\vec{s}$ is the size of the bird;
 \item $w_d$ is the maximum wandering distance;
-\item $w_r$ is the maximum radius wandering from the target;
-\item $v_p$ is the maximum velocity.
+\item $\vec{w_r}$ is the radius wandering from the target;
 \end{itemize}
 
 \end{frame}
@@ -567,10 +592,9 @@ $10^4$ time steps.
 \end{frame}
 \begin{frame}
 Three devices were adopted for testing different CUDA
-version of the model: the high-end GTX 980, a GT 635M
-and a low-end mobile chip (XXX QUALE??!).
+version of the model: the high-end GTX 980 and a GT 635M a low-end mobile chip.
 
-Above are shown the execution times (in seconds) of the na$\ddot{i}$ve and shared memory version:
+The followings are shown the execution times (in seconds) of the na$\ddot{i}$ve and shared memory version:
 
 \begin{table} [h!]
 	\centering
@@ -615,7 +639,7 @@ Timing (in seconds) for the Parallel CUDA shared memory implementation:
 	15360  & \(43332.3\) & $3110.0$ & $154.9$  \\
 	20480  & 86065.7 & 5522.0 & $280.8$ \\
 	40960  & 452423.1 & - & $825.4$ \\
-	81920  & 1966134.9 & - & $3307.2$ - \\
+	81920  & 1966134.9 & - & $3307.2$ \\
 	163840  & 8003173.0 & - & $13565.9$ \\
 	327680  & 35815012.0 & - & $54113.4$  \\
 	\hline
